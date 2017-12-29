@@ -1,10 +1,11 @@
-''' Here are examples, how the tas tools can be used.
-Note that the first input after loading a savefile will not be registered. '''
+"""
+Here are examples, how the tas tools can be used.
+Note that the first input after loading a savefile will not be registered.
+"""
+
 from ds_tas import *
 
-global RUN
 RUN = 32767
-global WALK
 WALK = 26500
 
 
