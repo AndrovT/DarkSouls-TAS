@@ -1,8 +1,9 @@
-from ctypes import cdll
 import ctypes
+from pathlib import Path
 
+dllpath = str(Path(__file__).parent / 'lib/taslib.dll')
 
-lib = cdll.LoadLibrary('taslib.dll')
+lib = ctypes.cdll.LoadLibrary(dllpath)
 
 lib.hook_new.restype = ctypes.c_void_p
 lib.hook_del.argtypes = [ctypes.c_void_p]

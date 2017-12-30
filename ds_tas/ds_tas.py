@@ -1,5 +1,6 @@
 import time
-from wrapper import Hook
+
+from .wrapper import Hook
 
 
 class TAS:

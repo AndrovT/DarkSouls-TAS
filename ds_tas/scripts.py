@@ -3,7 +3,7 @@ Here are examples, how the tas tools can be used.
 Note that the first input after loading a savefile will not be registered.
 """
 
-from ds_tas import *
+from .ds_tas import write
 
 RUN = 32767
 WALK = 26500
