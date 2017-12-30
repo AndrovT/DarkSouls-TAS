@@ -47,6 +47,23 @@ def get_moveswap(run_time=1, swap_up=False, wait_time=10):
     )
 
 
+def get_reset_moveswap(swapped_up=False):
+    return KeySequence(
+        KeyPress(start=1),
+        KeyPress(5),
+        KeyPress(dpad_right=1),
+        KeyPress(a=1),
+        KeyPress(),
+        KeyPress(dpad_down=1),
+        KeyPress(a=1),
+        KeyPress(2),
+        KeyPress(dpad_up=0 if swapped_up else 1, dpad_down=1 if swapped_up else 0),
+        KeyPress(a=1),
+        KeyPress(2),
+        KeyPress(start=1)
+    )
+
+
 def get_itemswap(walk, toggle, use):
     return KeySequence(
         KeyPress(walk, l_thumb_y=WALK),
@@ -63,3 +80,5 @@ def get_itemswap(walk, toggle, use):
 quitout = get_quitout()
 moveswap_down = get_moveswap(swap_up=False)
 moveswap_up = get_moveswap(swap_up=True)
+reset_up = get_reset_moveswap(swapped_up=True)
+reset_down = get_reset_moveswap(swapped_up=False)

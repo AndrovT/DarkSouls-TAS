@@ -193,6 +193,12 @@ class KeyPress:
 
         return f'KeyPress(frames={self.frames}{repr_mid})'
 
+    def __add__(self, other):
+        if isinstance(other, KeyPress):
+            return KeySequence(self, other)
+        elif isinstance(other, KeySequence):
+            return KeySequence(self, *other._sequence)
+
     @classmethod
     def from_list(cls, state):
         key_values = dict(zip(controller_keys, state))
@@ -293,6 +299,22 @@ class KeySequence:
 
     def extend(self, keypresses):
         self._sequence.extend(keypresses)
+
+    @classmethod
+    def record_input(cls, start_delay, record_time, sample_interval=1/60, tas_instance=tas):
+        print(f'Preparing to record in {start_delay} seconds')
+        recording = cls()
+        time.sleep(start_delay)
+        print('Recording Started')
+        start_time = time.clock()
+        end_time = start_time + record_time
+        while time.clock() <= end_time:
+            recording.append(KeyPress.from_state(tas_instance))
+            time.sleep(sample_interval)
+        print('Recording Finished')
+
+        return recording
+
 
 
 def write(
