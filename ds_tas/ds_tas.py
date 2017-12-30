@@ -301,7 +301,7 @@ class KeySequence:
         self._sequence.extend(keypresses)
 
     @classmethod
-    def record_input(cls, start_delay, record_time, sample_interval=1/60, tas_instance=tas):
+    def record_input(cls, start_delay, record_time, tas_instance=tas):
         print(f'Preparing to record in {start_delay} seconds')
         recording = cls()
         time.sleep(start_delay)
@@ -310,9 +310,10 @@ class KeySequence:
         end_time = start_time + record_time
         while time.clock() <= end_time:
             recording.append(KeyPress.from_state(tas_instance))
-            time.sleep(sample_interval)
+            igt = tas_instance.h.igt()
+            while igt == tas_instance.h.igt():
+                time.sleep(0.002)
         print('Recording Finished')
-
         return recording
 
 
