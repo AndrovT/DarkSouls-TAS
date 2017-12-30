@@ -68,6 +68,7 @@ tas = TAS()
 
 def write(
         frames=1,
+        *,
         dpad_up=0,
         dpad_down=0,
         dpad_left=0,

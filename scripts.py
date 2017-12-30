@@ -22,7 +22,10 @@ def quitout():
     write(a=1)
 
 
-def moveswap():
+def moveswap(runtime=5, move_dir='down', wait_time=10):
+    write(runtime, l_thumb_y=RUN)
+    write(l_thumb_y=RUN, b=1)
+    write(wait_time)
     write(l1=1)
     write(start=1)
     write(5)
@@ -32,7 +35,10 @@ def moveswap():
     write(dpad_down=1)
     write(a=1)
     write(2)
-    write(dpad_up=1)
+    if move_dir == 'up':
+        write(dpad_up=1)
+    else:
+        write(dpad_down=1)
     write(a=1)
     write(2)
     write(start=1)
