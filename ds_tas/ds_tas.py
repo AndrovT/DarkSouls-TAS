@@ -301,17 +301,46 @@ class KeySequence:
         self._sequence.extend(keypresses)
 
     @classmethod
-    def record_input(cls, start_delay, record_time, tas_instance=tas):
+    def from_list(cls, states):
+        """
+        Return the keypresses from a list of lists of press values
+        :param states:
+        :return:
+        """
+        instance = cls(*(KeyPress.from_list(state) for state in states))
+        return instance
+
+    @classmethod
+    def record(cls, start_delay, record_time=None, tas_instance=tas):
+        """
+        Record the inputs for a time or infinitely
+
+        Exit out by pressing start and select/back at the same time.
+
+        :param start_delay:
+        :param record_time:
+        :param tas_instance:
+        :return:
+        """
         print(f'Preparing to record in {start_delay} seconds')
         recording = cls()
         time.sleep(start_delay)
         print('Recording Started')
         start_time = time.clock()
-        end_time = start_time + record_time
-        while time.clock() <= end_time:
-            recording.append(KeyPress.from_state(tas_instance))
+        end_time = start_time + record_time if record_time else None
+        while True:
+            keypress = KeyPress.from_state(tas_instance)
+            # Exit if start and select are held down
+            if keypress.start and keypress.back:
+                break
+            recording.append(keypress)
             igt = tas_instance.h.igt()
+            # Wait until next igt time
             while igt == tas_instance.h.igt():
                 time.sleep(0.002)
+            # Check if record time complete
+            if end_time and time.clock() > end_time:
+                break
         print('Recording Finished')
+
         return recording
