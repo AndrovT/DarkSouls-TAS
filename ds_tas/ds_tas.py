@@ -68,11 +68,7 @@ class TAS:
         18: r_thumb_x (-32,768 to 32,767)
         19: r_thumb_y (-32,768 to 32,767)
         """
-        if isinstance(i, KeySequence):
-            self.queue.extend(i.keylist)
-        elif isinstance(i, KeyPress):
-            self.queue.extend(i.keylist)
-        elif isinstance(i[0], list) and len(i[0]) == 20:
+        if isinstance(i[0], list) and len(i[0]) == 20:
             self.queue.extend(i)
         elif isinstance(i[0], int) and len(i) == 20:
             self.queue.append(i)
@@ -89,10 +85,6 @@ class TAS:
 
         # Make sure control is returned after completion
         try:
-            igt = self.h.igt()
-            while igt == self.h.igt():
-                time.sleep(0.002)
-
             # Loop over the queue and clear it
             for command in self.queue:
                 self.h.write_input(command)
@@ -195,9 +187,9 @@ class KeyPress:
 
     def __add__(self, other):
         if isinstance(other, KeyPress):
-            return KeySequence(self, other)
+            return KeySequence([self, other])
         elif isinstance(other, KeySequence):
-            return KeySequence(self, *other._sequence)
+            return KeySequence([self, *other._sequence])
 
     @classmethod
     def from_list(cls, state):
@@ -240,6 +232,26 @@ class KeyPress:
             for _ in range(self.frames)
         ]
 
+    @property
+    def button_pressed(self):
+        """
+        Return if an on/off button is pressed (does not include triggers)
+
+        :return: True/False
+        """
+        return bool(sum([
+            self.start,
+            self.back,
+            self.l_thumb,
+            self.r_thumb,
+            self.l1,
+            self.r1,
+            self.a,
+            self.b,
+            self.x,
+            self.y
+        ]))
+
     def execute(self, tas_instance=tas):
         tas_instance.clear()
         tas_instance.push(self.keylist)
@@ -247,27 +259,27 @@ class KeyPress:
 
 
 class KeySequence:
-    def __init__(self, *sequence):
-        self._sequence = list(sequence) if sequence else []
+    def __init__(self, sequence=None):
+        self._sequence = sequence if sequence else []
 
     def __repr__(self):
         seq = ', '.join(repr(item) for item in self._sequence)
-        return f'KeySequence({seq})'
+        return f'KeySequence([{seq}])'
 
     def __radd__(self, other):
         if isinstance(other, KeySequence):
-            return KeySequence(*other._sequence, *self._sequence)
+            return KeySequence([*other._sequence, *self._sequence])
         elif isinstance(other, KeyPress):
-            return KeySequence(KeyPress,  *self._sequence)
+            return KeySequence([KeyPress,  *self._sequence])
         else:
             raise TypeError('unsupported operand type(s) '
                             f'for +: \'{type(self)}\' and \'{type(other)}\'')
 
     def __add__(self, other):
         if isinstance(other, KeySequence):
-            return KeySequence(*self._sequence , *other._sequence)
+            return KeySequence([*self._sequence, *other._sequence])
         elif isinstance(other, KeyPress):
-            return KeySequence(*self._sequence, other)
+            return KeySequence([*self._sequence, other])
         else:
             raise TypeError('unsupported operand type(s) '
                             f'for +: \'{type(other)}\' and \'{type(self)}\'')
@@ -285,14 +297,27 @@ class KeySequence:
     def keylist(self):
         return list(chain.from_iterable(item.keylist for item in self._sequence))
 
-    def execute(self, tas_instance=tas):
+    def execute(self, start_delay=None, tas_instance=tas):
         """
         Queue up and execute a series of controller commands
+
+        :param start_delay: Delay before execution starts in seconds
         :param tas_instance:
         """
+        if start_delay:
+            print(f'Delaying start by {start_delay} seconds')
+            if start_delay >= 5:
+                time.sleep(start_delay - 5)
+                for i in range(5, 0, -1):
+                    print(f'{i}')
+                    time.sleep(1)
+            else:
+                time.sleep(start_delay)
+        print('Executing sequence')
         tas_instance.clear()
-        tas_instance.push(self)
+        tas_instance.push(self.keylist)
         tas_instance.execute()
+        print('Sequence executed')
 
     def append(self, keypress):
         self._sequence.append(keypress)
@@ -307,29 +332,53 @@ class KeySequence:
         :param states:
         :return:
         """
-        instance = cls(*(KeyPress.from_list(state) for state in states))
+        instance = cls([KeyPress.from_list(state) for state in states])
         return instance
 
     @classmethod
-    def record(cls, start_delay, record_time=None, tas_instance=tas):
+    def record(cls, start_delay, record_time=None, button_wait=False, tas_instance=tas):
         """
         Record the inputs for a time or infinitely
 
-        Exit out by pressing start and select/back at the same time.
+        Exit out and save by pressing start and select/back at the same time.
 
-        :param start_delay:
-        :param record_time:
+        use:
+            >>> seq = KeySequence.record(start_delay=10)
+
+        playback:
+            >>> seq.execute(start_delay=10)
+
+        :param start_delay: Delay before recording starts in seconds
+        :param record_time: Recording time
+        :param button_wait: Wait for a button press to start recording
         :param tas_instance:
-        :return:
+        :return: recorded tas data
         """
         print(f'Preparing to record in {start_delay} seconds')
         recording = cls()
-        time.sleep(start_delay)
+        if start_delay >= 5:
+            time.sleep(start_delay - 5)
+            print('Countdown')
+            for i in range(5, 0, -1):
+                print(f'{i}')
+                time.sleep(1)
+        else:
+            time.sleep(start_delay)
+
         print('Recording Started')
         start_time = time.clock()
         end_time = start_time + record_time if record_time else None
+        first_input = True
         while True:
+            # Special code for waiting for first input
             keypress = KeyPress.from_state(tas_instance)
+            if first_input and button_wait:
+                print('Waiting for input')
+                while not keypress.button_pressed:
+                    time.sleep(0.002)
+                    keypress = KeyPress.from_state(tas_instance)
+                first_input = False
+                print('Recording Resumed')
             # Exit if start and select are held down
             if keypress.start and keypress.back:
                 break

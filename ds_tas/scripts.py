@@ -10,7 +10,7 @@ WALK = 26500
 
 
 def get_quitout():
-    return KeySequence(
+    return KeySequence([
         KeyPress(start=1),
         KeyPress(5),
         KeyPress(dpad_left=1),
@@ -21,11 +21,11 @@ def get_quitout():
         KeyPress(),
         KeyPress(dpad_left=1),
         KeyPress(a=1),
-    )
+    ])
 
 
 def get_moveswap(run_time=1, swap_up=False, wait_time=10):
-    return KeySequence(
+    return KeySequence([
         KeyPress(run_time, l_thumb_y=RUN),
         KeyPress(l_thumb_y=RUN, b=1),
         KeyPress(wait_time),
@@ -44,11 +44,11 @@ def get_moveswap(run_time=1, swap_up=False, wait_time=10):
         KeyPress(start=1),
         KeyPress(2),
         KeyPress(start=1),
-    )
+    ])
 
 
 def get_reset_moveswap(swapped_up=False):
-    return KeySequence(
+    return KeySequence([
         KeyPress(start=1),
         KeyPress(5),
         KeyPress(dpad_right=1),
@@ -60,8 +60,8 @@ def get_reset_moveswap(swapped_up=False):
         KeyPress(dpad_up=0 if swapped_up else 1, dpad_down=1 if swapped_up else 0),
         KeyPress(a=1),
         KeyPress(2),
-        KeyPress(start=1)
-    )
+        KeyPress(start=1),
+    ])
 
 
 def get_itemswap(walk, toggle, use):
