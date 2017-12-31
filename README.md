@@ -9,7 +9,7 @@
 ```python
 >>> from ds_tas import KeyPress, KeySequence, scripts
 >>> wave = KeyPress(back=1) + KeyPress(5) + KeyPress(dpad_right=1) + KeyPress(2) + KeyPress(a=1)
->>> wave.execute
+>>> wave.execute()
 >>>
 >>> scripts.moveswap_down.execute()
 >>>
