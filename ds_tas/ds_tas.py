@@ -325,20 +325,23 @@ class KeySequence:
         :param start_delay: Delay before execution starts in seconds
         :param tas_instance:
         """
-        if start_delay:
-            print(f'Delaying start by {start_delay} seconds')
-            if start_delay >= 5:
-                time.sleep(start_delay - 5)
-                for i in range(5, 0, -1):
-                    print(f'{i}')
-                    time.sleep(1)
-            else:
-                time.sleep(start_delay)
-        print('Executing sequence')
-        tas_instance.clear()
-        tas_instance.push(self.keylist)
-        tas_instance.execute()
-        print('Sequence executed')
+        if self._sequence:
+            if start_delay:
+                print(f'Delaying start by {start_delay} seconds')
+                if start_delay >= 5:
+                    time.sleep(start_delay - 5)
+                    for i in range(5, 0, -1):
+                        print(f'{i}')
+                        time.sleep(1)
+                else:
+                    time.sleep(start_delay)
+            print('Executing sequence')
+            tas_instance.clear()
+            tas_instance.push(self.keylist)
+            tas_instance.execute()
+            print('Sequence executed')
+        else:
+            print('No sequence defined')
 
     def append(self, keypress):
         self._sequence.append(keypress)
