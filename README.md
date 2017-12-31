@@ -30,7 +30,8 @@ Record on first button press (wait for the counter then load a save)
 >>> recording = KeySequence.record(start_delay=10, button_wait=True)
 ```
 
-Reload the savefile and highlight the save then
+Reload the savefile and highlight the save then execute the commands.
+Skip the wait for IGT to change so it can open the save.
 ```
->>> recording.execute(
+>>> recording.execute(skip_wait=True)
 ```
