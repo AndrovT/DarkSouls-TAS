@@ -52,3 +52,5 @@ Skip wait makes the recording load the save at the start.
 >>> playback = KeySequence.from_file('asylum_run.txt')
 >>> playback.execute(start_delay=10, skip_wait=True)
 ```
+
+If you're really lucky it looks like this: https://youtu.be/gf_ApkcKt6I
