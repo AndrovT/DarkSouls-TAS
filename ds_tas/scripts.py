@@ -65,7 +65,7 @@ def get_reset_moveswap(swapped_up=False):
 
 
 def get_itemswap(walk, toggle, use):
-    return KeySequence(
+    return KeySequence([
         KeyPress(walk, l_thumb_y=WALK),
         KeyPress(x=1),
         KeyPress(),
@@ -74,7 +74,7 @@ def get_itemswap(walk, toggle, use):
         KeyPress(dpad_right=1, l_thumb_y=RUN),
         KeyPress(use, l_thumb_y=RUN),
         KeyPress(x=1),
-    )
+    ])
 
 
 quitout = get_quitout()
@@ -82,3 +82,15 @@ moveswap_down = get_moveswap(swap_up=False)
 moveswap_up = get_moveswap(swap_up=True)
 reset_up = get_reset_moveswap(swapped_up=True)
 reset_down = get_reset_moveswap(swapped_up=False)
+
+joy = KeySequence(
+    [KeyPress(frames=1, back=1),
+     KeyPress(frames=1, dpad_right=1),
+     KeyPress(frames=1),
+     KeyPress(frames=1, dpad_right=1),
+     KeyPress(frames=1),
+     KeyPress(frames=1, dpad_right=1),
+     KeyPress(frames=1, a=1)]
+)
+
+joy_moveswap = joy + KeyPress(100) + moveswap_down[3:]

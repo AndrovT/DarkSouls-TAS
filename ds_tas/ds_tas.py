@@ -75,7 +75,7 @@ class TAS:
         else:
             raise ValueError(f'Invalid Input: {i}')
 
-    def execute(self):
+    def execute(self, skip_wait=False):
         """
         Execute the sequence of commands that have been pushed
         to the TAS object
@@ -85,7 +85,13 @@ class TAS:
 
         # Make sure control is returned after completion
         try:
-            # Loop over the queue and clear it
+            igt = self.h.igt()
+            if not skip_wait:
+                # Sleep to make sure the first command is used
+                while igt == self.h.igt():
+                    time.sleep(0.002)
+                    # Loop over the queue and clear it
+
             for command in self.queue:
                 self.h.write_input(command)
                 igt = self.h.igt()
@@ -288,7 +294,11 @@ class KeySequence:
         return len(self._sequence)
 
     def __getitem__(self, item):
-        return self._sequence[item]
+        value = self._sequence[item]
+        if isinstance(value, list):
+            return KeySequence(value)
+        else:
+            return value
 
     def __setitem__(self, key, value):
         self._sequence[key] = value
