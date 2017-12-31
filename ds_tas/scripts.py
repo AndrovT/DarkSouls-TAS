@@ -9,6 +9,14 @@ RUN = 32767
 WALK = 26500
 
 
+def run(frames):
+    return KeyPress(frames=frames, l_thumb_y=RUN)
+
+
+def walk(frames):
+    return KeyPress(frames=frames, l_thumb_y=WALK)
+
+
 def get_quitout():
     return KeySequence([
         KeyPress(start=1),
@@ -24,11 +32,14 @@ def get_quitout():
     ])
 
 
-def get_moveswap(run_time=1, swap_up=False, wait_time=10):
+def get_moveswap_base(swap_up=False):
+    """
+    Base commands for moveswap (to be executed mid animation)
+
+    :param swap_up: Moveswap to the item above
+    :return: KeySequence for moveswap
+    """
     return KeySequence([
-        KeyPress(run_time, l_thumb_y=RUN),
-        KeyPress(l_thumb_y=RUN, b=1),
-        KeyPress(wait_time),
         KeyPress(l1=1),
         KeyPress(start=1),
         KeyPress(5),
@@ -44,6 +55,15 @@ def get_moveswap(run_time=1, swap_up=False, wait_time=10):
         KeyPress(start=1),
         KeyPress(2),
         KeyPress(start=1),
+    ])
+
+
+def get_moveswap(run_time=1, swap_up=False, wait_time=10):
+    return KeySequence([
+        run(run_time),
+        KeyPress(l_thumb_y=RUN, b=1),
+        KeyPress(wait_time),
+        get_moveswap_base(swap_up)
     ])
 
 
@@ -64,9 +84,9 @@ def get_reset_moveswap(swapped_up=False):
     ])
 
 
-def get_itemswap(walk, toggle, use):
+def get_itemswap(walk_time, toggle, use):
     return KeySequence([
-        KeyPress(walk, l_thumb_y=WALK),
+        KeyPress(walk_time, l_thumb_y=WALK),
         KeyPress(x=1),
         KeyPress(),
         KeyPress(dpad_down=1),
