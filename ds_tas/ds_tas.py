@@ -266,7 +266,17 @@ class KeyPress:
 
 class KeySequence:
     def __init__(self, sequence=None):
-        self._sequence = sequence if sequence else []
+        seq = []
+        for item in sequence:
+            if isinstance(item, KeyPress):
+                seq.append(item)
+            elif isinstance(item, KeySequence):
+                seq.extend(item._sequence)
+            else:
+                raise TypeError(
+                    f'Expected KeyPress or KeySequence, found {type(item)}'
+                )
+        self._sequence = seq
 
     def __repr__(self):
         seq = ', '.join(repr(item) for item in self._sequence)
