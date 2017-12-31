@@ -266,6 +266,7 @@ class KeyPress:
 
 class KeySequence:
     def __init__(self, sequence=None):
+        sequence = sequence if sequence else []
         seq = []
         for item in sequence:
             if isinstance(item, KeyPress):
