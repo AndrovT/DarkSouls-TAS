@@ -1,4 +1,5 @@
 import time
+import json
 from itertools import chain
 
 from .wrapper import Hook
@@ -349,6 +350,28 @@ class KeySequence:
 
     def extend(self, keypresses):
         self._sequence.extend(keypresses)
+
+    def to_string(self):
+        """
+        Dump list data to string
+
+        :return: list of keypress commands as a string
+        """
+        return json.dumps(self.keylist)
+
+    def to_file(self, keylist_file):
+        with open(keylist_file, 'w') as outdata:
+            outdata.write(self.to_string())
+
+    @classmethod
+    def from_string(cls, keylist_string):
+        return cls.from_list(json.loads(keylist_string))
+
+    @classmethod
+    def from_file(cls, keylist_file):
+        with open(keylist_file) as indata:
+            result = cls.from_list(json.load(indata))
+        return result
 
     @classmethod
     def from_list(cls, states):
