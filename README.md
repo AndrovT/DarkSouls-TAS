@@ -35,3 +35,20 @@ Skip the wait for IGT to change so it can open the save.
 ```
 >>> recording.execute(skip_wait=True)
 ```
+
+To try to playback the asylum run. The most likely outcome is dying to asylum demon. You might get lucky though!
+
+Make a new game as male thief with firebombs.
+
+Quitout without touching anything.
+
+Execute the commands and then make sure dark souls is active before the countdown finishes.
+
+Skip wait makes the recording load the save at the start.
+
+```python
+>>> from ds_tas import KeySequence
+>>>
+>>> playback = KeySequence.from_file('asylum_run.txt')
+>>> playback.execute(start_delay=10, skip_wait=True)
+```
