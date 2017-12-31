@@ -318,11 +318,12 @@ class KeySequence:
     def keylist(self):
         return list(chain.from_iterable(item.keylist for item in self._sequence))
 
-    def execute(self, start_delay=None, tas_instance=tas):
+    def execute(self, start_delay=None, skip_wait=False, tas_instance=tas):
         """
         Queue up and execute a series of controller commands
 
         :param start_delay: Delay before execution starts in seconds
+        :param skip_wait: Skip waiting for IGT to change for the first command
         :param tas_instance:
         """
         if self._sequence:
@@ -338,7 +339,7 @@ class KeySequence:
             print('Executing sequence')
             tas_instance.clear()
             tas_instance.push(self.keylist)
-            tas_instance.execute()
+            tas_instance.execute(skip_wait=skip_wait)
             print('Sequence executed')
         else:
             print('No sequence defined')

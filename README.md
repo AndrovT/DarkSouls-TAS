@@ -24,3 +24,13 @@ From a command terminal (where `python` will launch python 3.6)
 ```
 
 Compatible with both the latest steam release and the debug version.
+
+Record on first button press (wait for the counter then load a save)
+```
+>>> recording = KeySequence.record(start_delay=10, button_wait=True)
+```
+
+Reload the savefile and highlight the save then
+```
+>>> recording.execute(
+```
