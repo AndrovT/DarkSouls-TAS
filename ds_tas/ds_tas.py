@@ -1,5 +1,6 @@
 import time
 import json
+from copy import copy
 from itertools import chain
 
 from .wrapper import Hook
@@ -137,6 +138,11 @@ class KeyPress:
         """
         Create a new KeyPress
 
+        Results of operators:
+            KeyPress1 + KeyPress2 = KeySequence([KeyPress1, KeyPress2])
+            KeyPress(frames=x, ...) * n = KeyPress(frames=n*x, ...)
+            KeyPress1 & KeyPress2 = KeyPress1 and KeyPress2 simultaneously for the longest number of frames
+
         :param frames: Number of frames to hold the keypress
         :param dpad_up:
         :param dpad_down:
@@ -197,6 +203,69 @@ class KeyPress:
             return KeySequence([self, other])
         elif isinstance(other, KeySequence):
             return KeySequence([self, *other._sequence])
+
+    def __mul__(self, other):
+        if isinstance(other, int):
+            newframes = self.frames * other
+            newpress = copy(self)
+            newpress.frames = newframes
+            return newpress
+        else:
+            raise TypeError('Can only multiply keypresses by integers')
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def __and__(self, other):
+        """
+        Combine KeyPresses
+
+        This makes sense as an 'and' command but it's logically
+        more connected to 'or'.
+
+        For every button press take the highest value
+
+        :param other: KeyPress instance to combine
+        :type other: KeyPress
+        :return: New Combined KeyPress
+        """
+        return KeyPress(
+            frames=max(self.frames, other.frames),
+            dpad_up=max(self.dpad_up, other.dpad_up),
+            dpad_down=max(self.dpad_down, other.dpad_down),
+            dpad_left=max(self.dpad_left, other.dpad_left),
+            dpad_right=max(self.dpad_right, other.dpad_right),
+            start=max(self.start, other.start),
+            back=max(self.back, other.back),
+            l_thumb=max(self.l_thumb, other.l_thumb),
+            r_thumb=max(self.r_thumb, other.r_thumb),
+            l1=max(self.l1, other.l1),
+            r1=max(self.r1, other.r1),
+            a=max(self.a, other.a),
+            b=max(self.b, other.b),
+            x=max(self.x, other.x),
+            y=max(self.y, other.y),
+            l2=max(self.l2, other.l2),
+            r2=max(self.r2, other.r2),
+            l_thumb_x=max(self.l_thumb_x, other.l_thumb_x),
+            l_thumb_y=max(self.l_thumb_y, other.l_thumb_y),
+            r_thumb_x=max(self.r_thumb_x, other.r_thumb_x),
+            r_thumb_y=max(self.r_thumb_y, other.r_thumb_y),
+        )
+
+    def __len__(self):
+        """
+        len on a KeyPress returns the number of frames it will be held for.
+
+        :return: frame count
+        """
+        return self.frames
+
+    def __eq__(self, other):
+        if isinstance(other, KeyPress):
+            return self.keylist == other.keylist
+        else:
+            return False
 
     @classmethod
     def from_list(cls, state):
@@ -290,8 +359,7 @@ class KeySequence:
         elif isinstance(other, KeyPress):
             return KeySequence([KeyPress,  *self._sequence])
         else:
-            raise TypeError('unsupported operand type(s) '
-                            f'for +: \'{type(self)}\' and \'{type(other)}\'')
+            return NotImplemented
 
     def __add__(self, other):
         if isinstance(other, KeySequence):
@@ -299,11 +367,25 @@ class KeySequence:
         elif isinstance(other, KeyPress):
             return KeySequence([*self._sequence, other])
         else:
-            raise TypeError('unsupported operand type(s) '
-                            f'for +: \'{type(other)}\' and \'{type(self)}\'')
+            return NotImplemented
 
     def __len__(self):
         return len(self._sequence)
+
+    def __mul__(self, other):
+        """
+        Integer Multiplication of a sequence should repeat the sequence
+
+        :param other: Number of times to perform sequence
+        :return: new sequence.
+        """
+        if isinstance(other, int):
+            return KeySequence(self._sequence * other)
+        else:
+            return NotImplemented
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __getitem__(self, item):
         value = self._sequence[item]
