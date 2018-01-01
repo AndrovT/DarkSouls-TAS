@@ -3,6 +3,7 @@ import json
 from copy import copy
 from itertools import chain
 
+from .util import largest_val
 from .wrapper import Hook
 
 
@@ -223,7 +224,8 @@ class KeyPress:
         This makes sense as an 'and' command but it's logically
         more connected to 'or'.
 
-        For every button press take the highest value
+        For every button press take the 'largest' value
+        This means for values that can be negative it will take the 'bigger' number.
 
         :param other: KeyPress instance to combine
         :type other: KeyPress
@@ -247,10 +249,10 @@ class KeyPress:
             y=max(self.y, other.y),
             l2=max(self.l2, other.l2),
             r2=max(self.r2, other.r2),
-            l_thumb_x=max(self.l_thumb_x, other.l_thumb_x),
-            l_thumb_y=max(self.l_thumb_y, other.l_thumb_y),
-            r_thumb_x=max(self.r_thumb_x, other.r_thumb_x),
-            r_thumb_y=max(self.r_thumb_y, other.r_thumb_y),
+            l_thumb_x=largest_val(self.l_thumb_x, other.l_thumb_x),
+            l_thumb_y=largest_val(self.l_thumb_y, other.l_thumb_y),
+            r_thumb_x=largest_val(self.r_thumb_x, other.r_thumb_x),
+            r_thumb_y=largest_val(self.r_thumb_y, other.r_thumb_y),
         )
 
     def __len__(self):

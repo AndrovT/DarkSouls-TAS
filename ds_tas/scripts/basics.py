@@ -29,6 +29,7 @@ __all__ = [
     'waitfor',
     'runfor',
     'walkfor',
+    'turn_around',
 ]
 
 from ..ds_tas import KeyPress
@@ -75,3 +76,7 @@ def runfor(frames):
 
 def walkfor(frames):
     return KeyPress(frames=frames, l_thumb_y=_walkspeed)
+
+
+# Useful Helper
+turn_around = waitfor(10) & run_back
