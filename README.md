@@ -9,7 +9,7 @@
 ```python
 >>> from ds_tas.basics import *
 >>> from ds_tas.scripts import glitches, menus
->>> wave = back + right + a
+>>> wave = select + right + a
 >>> wave.execute()
 >>>
 >>> glitches.moveswap_down.execute()
