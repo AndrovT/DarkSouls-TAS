@@ -50,7 +50,7 @@ Skip wait makes the recording load the save at the start.
 ```python
 >>> from ds_tas.controller import KeySequence
 >>>
->>> playback = KeySequence.from_file('asylum_run.txt')
+>>> playback = KeySequence.from_file('demos/asylum_run.txt')
 >>> playback.execute(start_delay=10, skip_wait=True)
 ```
 
