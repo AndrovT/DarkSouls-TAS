@@ -7,7 +7,8 @@
 - navigate to that folder and launch python
 
 ```python
->>> from ds_tas import KeyPress, KeySequence, scripts
+>>> from ds_tas.basics import *
+>>> from ds_tas.scripts import glitches
 >>> wave = KeyPress(back=1) + KeyPress(5) + KeyPress(dpad_right=1) + KeyPress(2) + KeyPress(a=1)
 >>> wave.execute()
 >>>
@@ -47,7 +48,7 @@ Execute the commands and then make sure dark souls is active before the countdow
 Skip wait makes the recording load the save at the start.
 
 ```python
->>> from ds_tas import KeySequence
+>>> from ds_tas.controller import KeySequence
 >>>
 >>> playback = KeySequence.from_file('asylum_run.txt')
 >>> playback.execute(start_delay=10, skip_wait=True)
