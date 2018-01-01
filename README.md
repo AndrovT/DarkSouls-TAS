@@ -12,7 +12,7 @@
 >>> wave = select + right + a
 >>> wave.execute()
 >>>
->>> glitches.moveswap_down.execute()
+>>> glitches.roll_moveswap().execute()
 >>>
 >>> menus.quitout.execute()
 ```

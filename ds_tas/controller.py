@@ -1,3 +1,10 @@
+"""
+Main controller commands for keypresses and sequences.
+
+These are the methods behind all of the basic commands. They are also
+necessary for recording and playing back inputs.
+"""
+
 import json
 import time
 from copy import copy

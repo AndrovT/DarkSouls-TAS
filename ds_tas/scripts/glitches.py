@@ -9,7 +9,7 @@ from .menus import joy
 from ..controller import KeyPress, KeySequence
 
 
-def get_moveswap_base(swap_up=False, too_heavy=True):
+def moveswap(swap_up=False, too_heavy=True):
     """
     Base commands for moveswap (to be executed mid animation)
 
@@ -36,16 +36,29 @@ def get_moveswap_base(swap_up=False, too_heavy=True):
     ])
 
 
-def get_moveswap(run_time=1, swap_up=False, wait_time=10):
+def roll_moveswap(swap_up=False, too_heavy=True, run_time=1):
+    """
+    Perform a roll and moveswap off the roll
+    :param swap_up: Moveswap to the item above
+    :param too_heavy: Is the weapon too heavy to 1 hand
+    :param run_time: Frames to run before moveswap
+    :return: KeySequence for rolling moveswap
+    """
     return KeySequence([
         run_time * run,
         run & b,
-        wait_time * wait,
-        get_moveswap_base(swap_up)
+        10 * wait,
+        moveswap(swap_up, too_heavy)
     ])
 
 
-def get_reset_moveswap(swapped_up=False):
+def reset_moveswap(swapped_up=False):
+    """
+    Reset from moveswapped state back to pre-moveswap state.
+
+    :param swapped_up: Was the weapon that was moveswapped above the bow
+    :return: KeySequence to revert moveswap
+    """
     return KeySequence([
         KeyPress(start=1),
         KeyPress(5),
@@ -62,7 +75,7 @@ def get_reset_moveswap(swapped_up=False):
     ])
 
 
-def get_itemswap(walk_time, toggle, use):
+def itemswap(walk_time, toggle, use):
     return KeySequence([
         walkfor(walk_time),
         x,
@@ -84,9 +97,4 @@ def framedupe(dupes):
         return onedupe + (dupes - 1) * extradupe
 
 
-moveswap_down = get_moveswap(swap_up=False)
-moveswap_up = get_moveswap(swap_up=True)
-reset_up = get_reset_moveswap(swapped_up=True)
-reset_down = get_reset_moveswap(swapped_up=False)
-
-joy_moveswap = joy + KeyPress(100) + get_moveswap_base()
+joy_moveswap = joy + waitfor(100) + moveswap()
