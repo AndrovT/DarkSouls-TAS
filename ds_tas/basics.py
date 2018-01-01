@@ -32,7 +32,7 @@ __all__ = [
     'turn_around',
 ]
 
-from ..ds_tas import KeyPress
+from .controller import KeyPress
 
 _runspeed = 32767
 _walkspeed = 26500

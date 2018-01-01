@@ -1,7 +1,7 @@
 import ctypes
 from pathlib import Path
 
-dllpath = str(Path(__file__).parent / 'lib/taslib.dll')
+dllpath = str(Path(__file__).parents[1] / 'lib/taslib.dll')
 
 lib = ctypes.cdll.LoadLibrary(dllpath)
 

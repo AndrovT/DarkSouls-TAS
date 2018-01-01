@@ -1,9 +1,12 @@
 """
 Glitches
+
+Note that these are defined for a 30FPS framerate - these will not work at 60fps.
 """
 
-from ..ds_tas import KeyPress, KeySequence
-from .basics import *
+from ds_tas.basics import *
+from .menus import joy
+from ..controller import KeyPress, KeySequence
 
 
 def get_moveswap_base(swap_up=False, too_heavy=True):
@@ -76,15 +79,5 @@ moveswap_down = get_moveswap(swap_up=False)
 moveswap_up = get_moveswap(swap_up=True)
 reset_up = get_reset_moveswap(swapped_up=True)
 reset_down = get_reset_moveswap(swapped_up=False)
-
-joy = KeySequence([
-    select,
-    right,
-    wait,
-    right,
-    wait,
-    right,
-    a,
-])
 
 joy_moveswap = joy + KeyPress(100) + get_moveswap_base()

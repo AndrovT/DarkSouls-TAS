@@ -1,1 +1,1 @@
-from .ds_tas import tas, KeyPress, KeySequence
+from .controller import KeyPress, KeySequence

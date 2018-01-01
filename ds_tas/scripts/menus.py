@@ -1,9 +1,11 @@
 """
 Rapid Menuing sequences
+
+Defined at 30fps
 """
 
-from ..ds_tas import KeySequence
-from .basics import *
+from ds_tas.basics import *
+from ..controller import KeySequence
 
 quitout = KeySequence([
     start,
@@ -16,4 +18,14 @@ quitout = KeySequence([
     wait,
     left,
     a
+])
+
+joy = KeySequence([
+    select,
+    right,
+    wait,
+    right,
+    wait,
+    right,
+    a,
 ])
