@@ -2,6 +2,9 @@
 Basic Button presses and movements.
 
 Core building blocks for more complicated scripts.
+
+Combine them into sequences using & and + or making lists and
+calling KeySequence(thelist)
 """
 
 __all__ = [
@@ -22,11 +25,13 @@ __all__ = [
     'r1',
     'r2',
     'r3',
+    'sprint'
     'run',
     'walk',
     'run_back',
     'walk_back',
     'waitfor',
+    'sprintfor',
     'runfor',
     'walkfor',
     'turn_around',
@@ -65,17 +70,24 @@ walk = KeyPress(l_thumb_y=_walkspeed)
 run_back = KeyPress(l_thumb_y=-_runspeed)
 walk_back = KeyPress(l_thumb_y=-_walkspeed)
 
+# Combined actions
+sprint = run & b
+
 
 def waitfor(frames):
-    return KeyPress(frames=frames)
+    return frames * wait
 
 
 def runfor(frames):
-    return KeyPress(frames=frames, l_thumb_y=_runspeed)
+    return frames * run
 
 
 def walkfor(frames):
-    return KeyPress(frames=frames, l_thumb_y=_walkspeed)
+    return frames * walk
+
+
+def sprintfor(frames):
+    return frames * sprint
 
 
 # Useful Helper

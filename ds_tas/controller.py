@@ -31,6 +31,42 @@ controller_keys = [
 
 
 class KeyPress:
+    """
+    Button press for a controller.
+
+    (For most operations you should use the aliases from basics.py)
+
+    Example usage:
+        >>> sprint_10_frames = KeyPress(frames=10, l_thumb_y=32767, b=1)
+        >>> sprint_10_frames.execute()
+
+    Results of operators:
+        KeyPress1 + KeyPress2 = KeySequence([KeyPress1, KeyPress2])
+        KeyPress(frames=x, ...) * n = KeyPress(frames=n*x, ...)
+        KeyPress1 & KeyPress2 = KeyPress1 and KeyPress2 simultaneously for the longest number of frames
+
+    :param frames: Number of frames to hold the keypress
+    :param dpad_up:
+    :param dpad_down:
+    :param dpad_left:
+    :param dpad_right:
+    :param start:
+    :param back:
+    :param l_thumb:
+    :param r_thumb:
+    :param l1:
+    :param r1:
+    :param a:
+    :param b:
+    :param x:
+    :param y:
+    :param l2:
+    :param r2:
+    :param l_thumb_x:
+    :param l_thumb_y:
+    :param r_thumb_x:
+    :param r_thumb_y:
+    """
     def __init__(
         self,
         frames=1,
@@ -56,36 +92,6 @@ class KeyPress:
         r_thumb_x=0,
         r_thumb_y=0
     ):
-        """
-        Create a new KeyPress
-
-        Results of operators:
-            KeyPress1 + KeyPress2 = KeySequence([KeyPress1, KeyPress2])
-            KeyPress(frames=x, ...) * n = KeyPress(frames=n*x, ...)
-            KeyPress1 & KeyPress2 = KeyPress1 and KeyPress2 simultaneously for the longest number of frames
-
-        :param frames: Number of frames to hold the keypress
-        :param dpad_up:
-        :param dpad_down:
-        :param dpad_left:
-        :param dpad_right:
-        :param start:
-        :param back:
-        :param l_thumb:
-        :param r_thumb:
-        :param l1:
-        :param r1:
-        :param a:
-        :param b:
-        :param x:
-        :param y:
-        :param l2:
-        :param r2:
-        :param l_thumb_x:
-        :param l_thumb_y:
-        :param r_thumb_x:
-        :param r_thumb_y:
-        """
         self.frames = frames
         self.dpad_up = dpad_up
         self.dpad_down = dpad_down
@@ -257,6 +263,9 @@ class KeyPress:
 
 
 class KeySequence:
+    """
+
+    """
     def __init__(self, sequence=None):
         sequence = sequence if sequence else []
         seq = []
