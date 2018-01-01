@@ -25,7 +25,7 @@ __all__ = [
     'r1',
     'r2',
     'r3',
-    'sprint'
+    'sprint',
     'run',
     'walk',
     'run_back',
