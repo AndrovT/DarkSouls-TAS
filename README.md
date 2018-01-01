@@ -8,13 +8,13 @@
 
 ```python
 >>> from ds_tas.basics import *
->>> from ds_tas.scripts import glitches
+>>> from ds_tas.scripts import glitches, menus
 >>> wave = back + right + a
 >>> wave.execute()
 >>>
 >>> glitches.moveswap_down.execute()
 >>>
->>> glitches.quitout.execute()
+>>> menus.quitout.execute()
 ```
 
 If you want to try the example notebook you will need to install Jupyter.
