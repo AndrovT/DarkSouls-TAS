@@ -75,6 +75,15 @@ def get_itemswap(walk_time, toggle, use):
     ])
 
 
+def framedupe(dupes):
+    onedupe = x + waitfor(57) + x
+    extradupe = waitfor(48) + waitfor(57) + x
+    if dupes == 1:
+        return onedupe
+    elif dupes > 1:
+        return onedupe + (dupes - 1) * extradupe
+
+
 moveswap_down = get_moveswap(swap_up=False)
 moveswap_up = get_moveswap(swap_up=True)
 reset_up = get_reset_moveswap(swapped_up=True)

@@ -264,7 +264,11 @@ class KeyPress:
 
 class KeySequence:
     """
+    A sequence or chain of keypresses to be executed by the TAS.
 
+    Includes methods for addition and multiplication.
+
+    :param sequence: list of KeyPress or KeySequence objects
     """
     def __init__(self, sequence=None):
         sequence = sequence if sequence else []
