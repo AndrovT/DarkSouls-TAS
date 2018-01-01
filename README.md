@@ -9,12 +9,12 @@
 ```python
 >>> from ds_tas.basics import *
 >>> from ds_tas.scripts import glitches
->>> wave = KeyPress(back=1) + KeyPress(5) + KeyPress(dpad_right=1) + KeyPress(2) + KeyPress(a=1)
+>>> wave = back + right + a
 >>> wave.execute()
 >>>
->>> scripts.moveswap_down.execute()
+>>> glitches.moveswap_down.execute()
 >>>
->>> scripts.quitout.execute()
+>>> glitches.quitout.execute()
 ```
 
 If you want to try the example notebook you will need to install Jupyter.
