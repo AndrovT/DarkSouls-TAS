@@ -30,11 +30,22 @@ __all__ = [
     'walk',
     'run_back',
     'walk_back',
+    'run_left',
+    'run_right',
+    'walk_left',
+    'walk_right',
+    'aim_up',
+    'aim_down',
+    'aim_left',
+    'aim_right',
+    's_aim_up',
+    's_aim_down',
+    's_aim_left',
+    's_aim_right',
     'waitfor',
     'sprintfor',
     'runfor',
     'walkfor',
-    'turn_around',
 ]
 
 from .controller import KeyPress
@@ -64,11 +75,27 @@ r1 = KeyPress(r1=1)
 r2 = KeyPress(r2=255)
 r3 = KeyPress(r_thumb=1)
 
-# Joystick presses
+# Basic Movement
 run = KeyPress(l_thumb_y=_runspeed)
 walk = KeyPress(l_thumb_y=_walkspeed)
 run_back = KeyPress(l_thumb_y=-_runspeed)
 walk_back = KeyPress(l_thumb_y=-_walkspeed)
+
+run_left = KeyPress(l_thumb_x=-_runspeed)
+run_right = KeyPress(l_thumb_x=_runspeed)
+walk_left = KeyPress(l_thumb_x=-_walkspeed)
+walk_right = KeyPress(l_thumb_y=_walkspeed)
+
+# Camera Movement - s_ prefix for 'slow'
+aim_up = KeyPress(r_thumb_y=32767)
+aim_down = KeyPress(r_thumb_y=-32768)
+aim_left = KeyPress(r_thumb_x=-32768)
+aim_right = KeyPress(r_thumb_x=32767)
+
+s_aim_up = KeyPress(r_thumb_y=16384)
+s_aim_down = KeyPress(r_thumb_y=-16384)
+s_aim_left = KeyPress(r_thumb_x=-16384)
+s_aim_right = KeyPress(r_thumb_x=16384)
 
 # Combined actions
 sprint = run & b
@@ -89,6 +116,3 @@ def walkfor(frames):
 def sprintfor(frames):
     return frames * sprint
 
-
-# Useful Helper
-turn_around = waitfor(10) & run_back

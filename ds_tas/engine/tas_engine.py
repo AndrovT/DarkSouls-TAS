@@ -68,9 +68,9 @@ class TAS:
                 while igt == self.h.igt():
                     time.sleep(0.002)
             else:
-                # If not waiting for IGT, sleep for 1/100th of a second
+                # If not waiting for IGT, sleep for 1/20th of a second
                 # Otherwise the first input often gets eaten.
-                time.sleep(0.01)
+                time.sleep(0.05)
 
             # Loop over the queue and then clear it
             for command in self.queue:
