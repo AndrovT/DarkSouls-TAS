@@ -375,6 +375,27 @@ class KeySequence:
     def extend(self, keypresses):
         self._sequence.extend(keypresses)
 
+    def condense(self):
+        """
+        Reduce the keysequence to the minimum number of KeyPress instances by
+        combining identical button presses into single instances with multiple
+        frames.
+
+        Do nothing if the sequence is shorter than 2 KeyPresses.
+        """
+        if len(self._sequence) > 1:
+            newseq = []
+            current_press = self._sequence[0]
+            for press in self._sequence[1:]:
+                # Only care if buttons are the same not frames
+                if press.keylist[0] == current_press.keylist[0]:
+                    current_press.frames += press.frames
+                else:
+                    newseq.append(current_press)
+                    current_press = press
+            newseq.append(current_press)
+            self._sequence = newseq
+
     def to_string(self):
         """
         Dump list data to string
