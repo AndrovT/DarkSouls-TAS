@@ -35,7 +35,7 @@ Record on first button press (wait for the counter then load a save)
 Reload the savefile and highlight the save then execute the commands.
 Skip the wait for IGT to change so it can open the save.
 ```
->>> recording.execute(skip_wait=True)
+>>> recording.execute(igt_wait=False)
 ```
 
 To try to playback the asylum run. The most likely outcome is dying to asylum demon. You might get lucky though!
@@ -46,13 +46,13 @@ Quitout without touching anything.
 
 Execute the commands and then make sure dark souls is active before the countdown finishes.
 
-Skip wait makes the recording load the save at the start.
+Setting igt_wait to False makes the playback execute the first command before waiting for IGT to change.
 
 ```python
 >>> from ds_tas.controller import KeySequence
 >>>
 >>> playback = KeySequence.from_file('demos/asylum_run.txt')
->>> playback.execute(start_delay=10, skip_wait=True)
+>>> playback.execute(start_delay=10, igt_wait=False)
 ```
 
 If you're really lucky it looks like this: https://youtu.be/gf_ApkcKt6I
