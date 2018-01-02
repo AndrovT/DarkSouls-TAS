@@ -50,10 +50,12 @@ class TAS:
         else:
             raise ValueError(f'Invalid Input: {i}')
 
-    def execute(self, skip_wait=False):
+    def execute(self, igt_wait=True):
         """
         Execute the sequence of commands that have been pushed
         to the TAS object
+
+        :param igt_wait: wait for the igt to tick before performing the first input
         """
         self.h.controller(False)
         self.h.background_input(True)
@@ -61,12 +63,16 @@ class TAS:
         # Make sure control is returned after completion
         try:
             igt = self.h.igt()
-            if not skip_wait:
-                # Sleep to make sure the first command is used
+            if igt_wait:
+                # Wait for IGT to tick before running the first input
                 while igt == self.h.igt():
                     time.sleep(0.002)
-                    # Loop over the queue and clear it
+            else:
+                # If not waiting for IGT, sleep for 1/100th of a second
+                # Otherwise the first input often gets eaten.
+                time.sleep(0.01)
 
+            # Loop over the queue and then clear it
             for command in self.queue:
                 self.h.write_input(command)
                 igt = self.h.igt()

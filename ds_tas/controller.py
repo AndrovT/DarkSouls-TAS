@@ -263,10 +263,10 @@ class KeyPress:
             self.y
         ]))
 
-    def execute(self, tas_instance=tas):
+    def execute(self, igt_wait=True, tas_instance=tas):
         tas_instance.clear()
         tas_instance.push(self.keylist)
-        tas_instance.execute()
+        tas_instance.execute(igt_wait=igt_wait)
 
 
 class KeySequence:
@@ -343,13 +343,13 @@ class KeySequence:
     def keylist(self):
         return list(chain.from_iterable(item.keylist for item in self._sequence))
 
-    def execute(self, start_delay=None, skip_wait=False, tas_instance=tas):
+    def execute(self, start_delay=None, igt_wait=True, tas_instance=tas):
         """
         Queue up and execute a series of controller commands
 
         :param start_delay: Delay before execution starts in seconds
-        :param skip_wait: Skip waiting for IGT to change for the first command
-        :param tas_instance:
+        :param igt_wait: Wait for IGT to tick before performing the first input
+        :param tas_instance: TAS Engine for command execution
         """
         if self._sequence:
             if start_delay:
@@ -364,7 +364,7 @@ class KeySequence:
             print('Executing sequence')
             tas_instance.clear()
             tas_instance.push(self.keylist)
-            tas_instance.execute(skip_wait=skip_wait)
+            tas_instance.execute(igt_wait=igt_wait)
             print('Sequence executed')
         else:
             print('No sequence defined')
