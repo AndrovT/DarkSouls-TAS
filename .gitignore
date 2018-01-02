@@ -7,7 +7,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# build
 *.egg-info/
+build/
+dist/
 
 # Jupyter Notebook
 .ipynb_checkpoints
