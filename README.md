@@ -17,7 +17,7 @@ TAS run at the moment.
 
 ## Quick Preset Examples ##
 
-```python
+```python3
 >>> from ds_tas.basics import *
 >>> from ds_tas.scripts import glitches, menus
 >>> wave = select + right + a
@@ -37,22 +37,22 @@ tools easier.
 The following keypresses are predefined in the basics module.
 
 Do Nothing:
-```
+```python3
 wait
 ```
 
 Buttons and triggers:
-```
+```python3
 a, b, x, y, start, select, l1, l2, l3, r1, r2, r3
 ```
 
 DPad:
-```
+```python3
 up, down, left, right
 ```
 
 Joysticks:
-```
+```python3
 run, run_back, run_left, run_right
 walk, walk_back, walk_left, walk_right
 aim_up, aim_down, aim_left, aim_right
@@ -77,9 +77,10 @@ For Example opening the menu and selecting things (while in game):
 >>> start.execute()
 ```
 
-If you simply type one of these in you will see that they appear as
-`KeyPress(frames=x, ...)` in the terminal. This is the object being
-used internally and is a useful representation of what's going on.
+If you simply type one of these without .execute() in you will see
+that they appear as `KeyPress(frames=x, ...)` in the terminal. This
+is the object being used internally and is a useful representation
+of what's going on.
 
 ## Combining KeyPresses and building sequences ##
 
@@ -115,7 +116,7 @@ chain the sequences, and the & operator does not work.
 Wait times are used where otherwise inputs would be too quick to
 register.
 
-```
+```python
 >>> from ds_tas.basics import *
 >>>
 >>> # Start menu with delay
@@ -139,7 +140,7 @@ These commands can also be combined by creating a list and passing
 that list into the KeySequence class. For example creating the same
 weapon swap would be the following list
 
-```
+```python
 >>> swap_lh_weapon = KeySequence([
     start,
     wait * 5,
@@ -159,16 +160,27 @@ the `glitches.py` and `menus.py` in the scripts folder.
 
 ## Recording inputs and playback ##
 
-Record on first button press (wait for the counter then load a save)
-```
+Record on first button press (wait for the counter then load a save):
+```python
 >>> recording = KeySequence.record(start_delay=10, button_wait=True)
 ```
 
-Reload the savefile and highlight the save then execute the commands.
-Skip the wait for IGT to change so it can open the save.
-```
+Reload the savefile and highlight the save then execute the commands,
+skip the wait for IGT to change so it can open the save:
+```python
 >>> recording.execute(igt_wait=False)
 ```
+
+Save the recording:
+```python
+>>> recording.to_file('tas_demo.txt')
+```
+
+Reload the recording:
+```python
+>>> reloaded = KeySequence.from_file('tas_demo.txt')
+```
+
 
 ## Jupyter Notebook Demo ##
 
