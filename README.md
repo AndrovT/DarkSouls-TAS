@@ -2,8 +2,8 @@
  
  Instructions:
 
-- install python 3.6
-- Download the wheel from the releases page
+- Install [Python 3.6](https://www.python.org/ftp/python/3.6.4/python-3.6.4.exe)
+- [Download the wheel from the releases page](https://github.com/DavidCEllis/DarkSouls-TAS/releases/download/v2.0.0a1/ds_tas-2.0.0a1-cp36-cp36m-win_amd64.whl)
 - In a cmd window type `python -m pip install ds_tas-vX.X.X-cp36-cp36m-win_amd64.whl`
 - Launch Dark Souls
 - Launch Python
