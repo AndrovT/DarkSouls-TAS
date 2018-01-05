@@ -448,7 +448,9 @@ class KeySequence:
         :return: recorded tas data
         """
         print(f'Preparing to record in {start_delay} seconds')
-        recording = cls()
+        recording_data = []
+        igt_diffs = set()
+
         if start_delay >= 5:
             time.sleep(start_delay - 5)
             print('Countdown')
@@ -462,27 +464,36 @@ class KeySequence:
         start_time = time.clock()
         end_time = start_time + record_time if record_time else None
         first_input = True
+
+        # Special code for waiting for first input
+        if first_input and button_wait:
+            print('Waiting for input')
+            keypress = tas_instance.h.read_input()
+            while not sum(keypress[4:6] + keypress[10:14]):
+                time.sleep(0.002)
+                keypress = tas_instance.h.read_input()
+            print('Recording Resumed')
+
         while True:
-            # Special code for waiting for first input
-            keypress = KeyPress.from_state(tas_instance)
-            if first_input and button_wait:
-                print('Waiting for input')
-                while not keypress.button_pressed:
-                    time.sleep(0.002)
-                    keypress = KeyPress.from_state(tas_instance)
-                first_input = False
-                print('Recording Resumed')
+            keypress = tas_instance.h.read_input()
             # Exit if start and select are held down
-            if keypress.start and keypress.back:
+            if keypress[4] and keypress[5]:
                 break
-            recording.append(keypress)
+            recording_data.append(keypress)
+
             igt = tas_instance.h.igt()
             # Wait until next igt time
             while igt == tas_instance.h.igt():
                 time.sleep(0.002)
+            igt_diffs.add(tas_instance.h.igt() - igt)
+
             # Check if record time complete
             if end_time and time.clock() > end_time:
                 break
+
         print('Recording Finished')
+        print(f'Frame Lengths: {sorted(igt_diffs)}')
+
+        recording = cls.from_list(recording_data)
 
         return recording
