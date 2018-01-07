@@ -4,7 +4,7 @@ Rapid Menuing sequences
 Defined at 30fps
 """
 
-from ds_tas.basics import *
+from ..basics import *
 from ..controller import KeySequence
 
 quitout = KeySequence([
@@ -29,3 +29,13 @@ joy = KeySequence([
     right,
     a,
 ])
+
+
+def level_fast(vit, att, end, stre, dex, res, inte, fth):
+    # Assume you start in the level up window with vit highlighted
+    inc_lvl = right + wait
+    seq = KeySequence()
+    for stat in [vit, att, end, stre, dex, res, inte, fth]:
+        seq += inc_lvl * (stat - 1) + right
+        seq += down
+    return seq
