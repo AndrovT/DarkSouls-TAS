@@ -290,6 +290,7 @@ class KeySequence:
                     f'Expected KeyPress or KeySequence, found {type(item)}'
                 )
         self._sequence = seq
+        self.condense()
 
     def __repr__(self):
         seq = ', '.join(repr(item) for item in self._sequence)
@@ -312,7 +313,14 @@ class KeySequence:
             return NotImplemented
 
     def __len__(self):
-        return len(self._sequence)
+        """
+        Return the number of frames in the sequence.
+
+        Alias of .framecount
+
+        :return: framecount
+        """
+        return self.framecount
 
     def __mul__(self, other):
         """
@@ -338,6 +346,10 @@ class KeySequence:
 
     def __setitem__(self, key, value):
         self._sequence[key] = value
+
+    @property
+    def framecount(self):
+        return sum(press.frames for press in self._sequence)
 
     @property
     def keylist(self):
@@ -387,10 +399,15 @@ class KeySequence:
             newseq = []
             current_press = self._sequence[0]
             for press in self._sequence[1:]:
-                # Only care if buttons are the same not frames
-                if press.keylist[0] == current_press.keylist[0]:
+                if not press.keylist:
+                    # Skip empty presses
+                    continue
+                elif press.keylist[0] == current_press.keylist[0]:
+                    # Only care if the keypress uses the same keys
                     current_press.frames += press.frames
                 else:
+                    # If the presses are different append to our new
+                    # sequence and update the current press
                     newseq.append(current_press)
                     current_press = press
             newseq.append(current_press)
