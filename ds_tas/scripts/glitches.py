@@ -9,16 +9,18 @@ from .menus import joy
 from ..controller import KeyPress, KeySequence
 
 
-def moveswap(swap_up=False, too_heavy=True):
+def moveswap(swap_up=False, too_heavy=True, l1_delay=0):
     """
     Base commands for moveswap (to be executed mid animation)
 
     :param swap_up: Moveswap to the item above
     :param too_heavy: Is the weapon too heavy to use one handed
+    :param l1_delay: frames to wait after pressing L1 before trying to menu
     :return: KeySequence for moveswap
     """
-    return KeySequence([
+    seq = KeySequence([
         l1,
+        wait * l1_delay,
         start,
         5 * wait,
         right,
@@ -34,6 +36,8 @@ def moveswap(swap_up=False, too_heavy=True):
         2 * wait,
         start if too_heavy else wait,
     ])
+
+    return seq
 
 
 def roll_moveswap(swap_up=False, too_heavy=True, run_time=1):
