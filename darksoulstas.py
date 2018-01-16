@@ -15,6 +15,8 @@ from ds_tas import KeySequence, KeyPress
 from ds_tas.basics import *
 # noinspection PyUnresolvedReferences
 from ds_tas.scripts.menus import quitout, joy, level_fast
+# noinspection PyUnresolvedReferences
+from ds_tas.scripts.glitches import moveswap, joy_moveswap, roll_moveswap, reset_moveswap, itemswap, framedupe
 
 __version__ = '2.1.0a1'
 
