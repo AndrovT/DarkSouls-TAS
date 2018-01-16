@@ -7,6 +7,14 @@ Defined at 30fps
 from ..basics import *
 from ..controller import KeySequence
 
+
+__all__ = [
+    'quitout',
+    'joy',
+    'level_fast',
+]
+
+
 quitout = KeySequence([
     start,
     5 * wait,

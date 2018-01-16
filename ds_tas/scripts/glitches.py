@@ -9,6 +9,16 @@ from .menus import joy
 from ..controller import KeyPress, KeySequence
 
 
+__all__ = [
+    'moveswap',
+    'roll_moveswap',
+    'reset_moveswap',
+    'itemswap',
+    'framedupe',
+    'joy_moveswap',
+]
+
+
 def moveswap(swap_up=False, too_heavy=True, l1_delay=0):
     """
     Base commands for moveswap (to be executed mid animation)
