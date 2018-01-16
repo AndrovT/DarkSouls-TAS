@@ -43,6 +43,7 @@ def tas_console():
 
     new_locals = copy.copy(base_locals)
     new_locals['tas_vars'] = base_locals
+    new_locals['exit'] = sys.exit
 
     sys.ps1 = 'TAS>>> '
     code.interact(banner=banner, local=new_locals)
