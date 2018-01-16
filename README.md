@@ -186,8 +186,6 @@ Execute the commands and then make sure dark souls is active before the countdow
 Setting igt_wait to False makes the playback execute the first command before waiting for IGT to change.
 
 ```python
-TAS>>> from ds_tas.controller import KeySequence
-TAS>>>
 TAS>>> playback = KeySequence.from_file('demos/asylum_run.txt')
 TAS>>> playback.execute(start_delay=10, igt_wait=False)
 ```
