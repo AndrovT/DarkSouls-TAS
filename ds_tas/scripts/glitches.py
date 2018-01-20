@@ -29,18 +29,17 @@ __all__ = [
 ]
 
 
-def moveswap(swap_up=False, too_heavy=True, l1_delay=0):
+def moveswap(swap_up=False, too_heavy=True, delay=0):
     """
     Base commands for moveswap (to be executed mid animation)
 
     :param swap_up: Moveswap to the item above
     :param too_heavy: Is the weapon too heavy to use one handed
-    :param l1_delay: frames to wait after pressing L1 before trying to menu
+    :param delay: Delay frames before hitting the final moveswap input
     :return: KeySequence for moveswap
     """
     seq = KeySequence([
         l1,
-        wait * l1_delay,
         start,
         5 * wait,
         right,
@@ -50,28 +49,28 @@ def moveswap(swap_up=False, too_heavy=True, l1_delay=0):
         a,
         2 * wait,
         up if swap_up else down,
+        wait * delay,
         a,
         2 * wait,
         start,
         2 * wait,
         start if too_heavy else wait,
     ])
-
     return seq
 
 
-def roll_moveswap(swap_up=False, too_heavy=True, run_time=1):
+def roll_moveswap(swap_up=False, too_heavy=True, delay=10):
     """
     Perform a roll and moveswap off the roll
     :param swap_up: Moveswap to the item above
     :param too_heavy: Is the weapon too heavy to 1 hand
-    :param run_time: Frames to run before moveswap
+    :param delay: Frame delay between roll and moveswap
+                  Should be ~10 for fastroll, ~16 for midroll, ~31 for slowroll
     :return: KeySequence for rolling moveswap
     """
     return KeySequence([
-        run_time * run,
         run & b,
-        10 * wait,
+        delay * wait,
         moveswap(swap_up, too_heavy)
     ])
 

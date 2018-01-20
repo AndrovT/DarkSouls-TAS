@@ -149,7 +149,8 @@ def tas_console():
     base_locals['help'] = Helper()
     base_locals['exit'] = sys.exit
 
-    sys.ps1 = 'TAS>>> '
+    sys.ps1 = 'TAS>>>\t'
+    sys.ps2 = '......\t'
     code.interact(banner=banner, local=base_locals)
 
 
