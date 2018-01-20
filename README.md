@@ -2,6 +2,7 @@
  
  Instructions:
 
+- Go offline in Steam (if you are not already)
 - Launch Dark Souls
 - Launch darksoulstas.exe
 
