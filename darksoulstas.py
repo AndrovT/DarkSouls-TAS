@@ -55,7 +55,7 @@ raw_banner = f"""
 banner = textwrap.dedent(raw_banner).strip()
 
 
-recording = KeySequence()
+recording = basics.select + basics.right + basics.a
 
 
 class Helper:
