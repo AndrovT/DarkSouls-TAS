@@ -453,7 +453,7 @@ class KeySequence:
         return instance
 
     @classmethod
-    def record(cls, start_delay, record_time=None, button_wait=False, tas_instance=tas):
+    def record(cls, start_delay=5, record_time=None, button_wait=True, tas_instance=tas):
         """
         Record the inputs for a time or infinitely
 
@@ -474,6 +474,9 @@ class KeySequence:
         print(f'Preparing to record in {start_delay} seconds')
         recording_data = []
         igt_diffs = set()
+
+        if start_delay is None:
+            start_delay = 0
 
         if start_delay >= 5:
             time.sleep(start_delay - 5)

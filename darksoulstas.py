@@ -11,7 +11,7 @@ import textwrap
 from ds_tas import KeySequence, KeyPress, basics
 from ds_tas.scripts import menus, glitches
 
-__version__ = '2.1.0b1'
+__version__ = '2.1.0b2'
 
 # Variable names to skip
 skip_vars = ['sys', 'code', 'copy', 'textwrap', 'raw_banner', 'banner', 'skip_vars']
@@ -92,7 +92,7 @@ class Helper:
         return "Help Method - use help(item) to get information on the item."
 
 
-def record(start_delay, record_time=None, button_wait=False):
+def record(start_delay=5, record_time=None, button_wait=True):
     """
     Record the input and store a global KeySequence.
 
@@ -107,7 +107,7 @@ def record(start_delay, record_time=None, button_wait=False):
     print('Recording stored as `recording`')
 
 
-def playback(start_delay=None, igt_wait=True):
+def playback(start_delay=None, igt_wait=False):
     """
     Playback the current recording.
 
