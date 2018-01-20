@@ -42,7 +42,8 @@ raw_banner = f"""
     Extension modules:
         menus, glitches
         
-    Chain KeyPresses and KeySequences using '+' and '*'. Combine KeyPresses using '&'.
+    Chain KeyPresses and KeySequences using '+' and '*'. 
+    Combine KeyPresses using '&'.
     
     eg: running_jump = (run & b) * 30 + run + (run & b) * 2
     
@@ -51,7 +52,9 @@ raw_banner = f"""
     Use help(nameofthing) to see the documentation and functions for that object. 
     (This will also give internal information)
     
-    Please read the readme at https://github.com/DavidCEllis/DarkSouls-TAS/tree/refactoring for examples.
+    Please read the readme at 
+    https://github.com/DavidCEllis/DarkSouls-TAS/tree/refactoring for examples.
+    
     Type exit() to quit.
 """
 
