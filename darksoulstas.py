@@ -11,7 +11,7 @@ import textwrap
 from ds_tas import KeySequence, KeyPress, basics
 from ds_tas.scripts import menus, glitches
 
-__version__ = '2.1.0b3'
+__version__ = '2.1.0b4'
 
 # Variable names to skip
 skip_vars = ['sys', 'code', 'copy', 'textwrap', 'raw_banner', 'banner', 'skip_vars']

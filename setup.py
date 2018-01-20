@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from wheel.bdist_wheel import bdist_wheel
 
-__version__ = '2.1.0b3'
+__version__ = '2.1.0b4'
 __author__ = 'AndrovT, DavidCEllis'
 
 
