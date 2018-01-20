@@ -156,6 +156,7 @@ Record on first button press (wait for the counter then load a save):
 ```python
 TAS>>> record(start_delay=10, button_wait=True)
 ```
+This will record inputs until you press start and select at the same time.
 
 Reload the savefile and highlight the save then execute the commands,
 skip the wait for IGT to change so it can open the save:

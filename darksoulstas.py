@@ -93,6 +93,8 @@ def record(start_delay, record_time=None, button_wait=False):
     """
     Record the input and store a global KeySequence.
 
+    Press start and select at the same time to stop the recording.
+
     :param start_delay: Time before recording will start (in seconds)
     :param record_time: Length of time to record for (in seconds), None will record indefinitely.
     :param button_wait: Wait for a button input before starting recording
