@@ -2,6 +2,16 @@
 Glitches
 
 Note that these are defined for a 30FPS framerate - these will not work at 60fps.
+
+Available Sequences:
+    joy_moveswap - performs the Joy animation and moveswaps to the weapon below the bow (assumes the weapon is too heavy)
+
+Available Functions:
+    moveswap - Basic moveswap command sequence (to be performed mid animation)
+    roll_moveswap - Basic fastroll moveswap
+    reset_moveswap - Reset back from moveswap quickly
+    itemswap - Attempt to perform the itemswap glitch
+    framedupe - perform the frame perfect soul dupe.
 """
 
 from ds_tas.basics import *

@@ -2,6 +2,12 @@
 Rapid Menuing sequences
 
 Defined at 30fps
+
+Available Sequences:
+    quitout
+    joy
+Available Functions:
+    level_fast
 """
 
 from ..basics import *
@@ -50,7 +56,9 @@ def level_fast(
         faith=0
 ):
     """
-    Level up as quickly as possible. Any unused parameters won't be levelled.
+    Get a sequence to Level up as quickly as possible. Any unused parameters won't be levelled.
+
+    Level up sequence starts assuming vitality is highlighted in the level up menu.
 
     :param vitality:
     :param attunement:

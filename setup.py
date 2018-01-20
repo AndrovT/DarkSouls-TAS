@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from wheel.bdist_wheel import bdist_wheel
 
-__version__ = '2.1.0a1'
+__version__ = '2.1.0'
 __author__ = 'AndrovT, DavidCEllis'
 
 
@@ -23,7 +23,7 @@ setup(
     description='TAS Tools for Dark Souls',
     python_requires='>=3.6',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Speedrunners / TAS',
         'Topic :: Video Games :: TAS',
         'Operating System :: Microsoft :: Windows',

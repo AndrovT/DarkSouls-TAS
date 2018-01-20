@@ -275,6 +275,8 @@ class KeySequence:
 
     Includes methods for addition and multiplication.
 
+    Use the .execute() method to perform the sequence in game.
+
     :param sequence: list of KeyPress or KeySequence objects
     """
     def __init__(self, sequence=None):
@@ -397,7 +399,7 @@ class KeySequence:
         """
         if len(self._sequence) > 1:
             newseq = []
-            current_press = self._sequence[0]
+            current_press = copy(self._sequence[0])
             for press in self._sequence[1:]:
                 if not press.keylist:
                     # Skip empty presses
@@ -409,8 +411,8 @@ class KeySequence:
                     # If the presses are different append to our new
                     # sequence and update the current press
                     newseq.append(current_press)
-                    current_press = press
-            newseq.append(current_press)
+                    current_press = copy(press)
+            newseq.append(copy(current_press))
             self._sequence = newseq
 
     def to_string(self):

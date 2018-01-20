@@ -5,6 +5,17 @@ Core building blocks for more complicated scripts.
 
 Combine them into sequences using & and + or making lists and
 calling KeySequence(thelist)
+
+Available KeyPresses:
+    wait, start, select, up, down, left, right,
+    a, b, x, y, l1, l2, l3, r1, r2, r3,
+    sprint, run, walk, run_back, walk_back,
+    run_left, run_right, walk_left, walk_right,
+    aim_up, aim_down, aim_left, aim_right,
+    s_aim_up, s_aim_down, s_aim_left, s_aim_right
+
+Available Functions:
+    waitfor, sprintfor, walkfor, runfor
 """
 
 __all__ = [
@@ -102,17 +113,41 @@ sprint = run & b
 
 
 def waitfor(frames):
+    """
+    Wait for <frames> frames.
+
+    :param frames: Number of frames to wait for
+    :return: Wait frames KeyPress
+    """
     return frames * wait
 
 
 def runfor(frames):
+    """
+    Run for <frames> frames.
+
+    :param frames: Number of frames to run for
+    :return: Run frames keypress
+    """
     return frames * run
 
 
 def walkfor(frames):
+    """
+    Run for <frames> frames.
+
+    :param frames: Number of frames to run for
+    :return: Run frames keypress
+    """
     return frames * walk
 
 
 def sprintfor(frames):
+    """
+    Run for <frames> frames.
+
+    :param frames: Number of frames to run for
+    :return: Run frames keypress
+    """
     return frames * sprint
 
