@@ -284,7 +284,7 @@ class KeySequence:
         seq = []
         for item in sequence:
             if isinstance(item, KeyPress):
-                seq.append(item)
+                seq.append(copy(item))
             elif isinstance(item, KeySequence):
                 seq.extend(item._sequence)
             else:

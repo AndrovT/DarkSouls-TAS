@@ -31,7 +31,10 @@ raw_banner = f"""
         waitfor, walkfor, runfor, sprintfor
     
     Recording and Playback:
-        record, playback, save, load
+        Functions:
+            record, playback, save, load
+        Current Sequence:
+            recording
     
     Raw Classes:
         KeyPress, KeySequence
@@ -54,8 +57,17 @@ raw_banner = f"""
 
 banner = textwrap.dedent(raw_banner).strip()
 
+# Define base_locals globally so recording works as intended
+base_locals = {
+    key: getattr(basics, key) for key in basics.__all__
+}
 
-recording = basics.select + basics.right + basics.a
+base_locals['KeySequence'] = KeySequence
+base_locals['KeyPress'] = KeyPress
+base_locals['menus'] = menus
+base_locals['glitches'] = glitches
+
+base_locals['recording'] = basics.select + basics.right + basics.a
 
 
 class Helper:
@@ -85,8 +97,8 @@ def record(start_delay, record_time=None, button_wait=False):
     :param record_time: Length of time to record for (in seconds), None will record indefinitely.
     :param button_wait: Wait for a button input before starting recording
     """
-    global recording
-    recording = KeySequence.record(start_delay, record_time, button_wait)
+    global base_locals
+    base_locals['recording'] = KeySequence.record(start_delay, record_time, button_wait)
     print('Recording stored as `recording`')
 
 
@@ -97,8 +109,8 @@ def playback(start_delay=None, igt_wait=True):
     :param start_delay: Time before playback commences
     :param igt_wait: wait for IGT to change before playback commenses
     """
-    global recording
-    recording.execute(start_delay, igt_wait)
+    global base_locals
+    base_locals['recording'].execute(start_delay, igt_wait)
 
 
 def save(filename):
@@ -107,8 +119,8 @@ def save(filename):
 
     :param filename: Recording output path
     """
-    global recording
-    recording.to_file(filename)
+    global base_locals
+    base_locals['recording'].to_file(filename)
 
 
 def load(filename):
@@ -117,26 +129,17 @@ def load(filename):
 
     :param filename: path of the keysequence to load.
     """
-    global recording
-    recording = KeySequence.from_file(filename)
+    global base_locals
+    base_locals['recording'] = KeySequence.from_file(filename)
 
 
 def tas_console():
     # Get the basic key commands for the command prompt
-    base_locals = {
-        key: getattr(basics, key) for key in basics.__all__
-    }
-
-    base_locals['KeySequence'] = KeySequence
-    base_locals['KeyPress'] = KeyPress
-    base_locals['menus'] = menus
-    base_locals['glitches'] = glitches
 
     base_locals['record'] = record
     base_locals['playback'] = playback
     base_locals['save'] = save
     base_locals['load'] = load
-    base_locals['recording'] = recording
 
     base_locals['help'] = Helper()
     base_locals['exit'] = sys.exit
