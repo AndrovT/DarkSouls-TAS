@@ -404,6 +404,11 @@ class KeySequence:
                 if not press.keylist:
                     # Skip empty presses
                     continue
+                elif not current_press.keylist:
+                    # If the original press is empty
+                    # load the next press
+                    current_press = copy(press)
+                    continue
                 elif press.keylist[0] == current_press.keylist[0]:
                     # Only care if the keypress uses the same keys
                     current_press.frames += press.frames
