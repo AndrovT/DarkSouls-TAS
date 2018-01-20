@@ -14,7 +14,7 @@ TAS run at the moment.
 
 ## Quick Preset Examples ##
 
-```python3
+```python
 TAS>>> wave = select + right + a
 TAS>>> wave.execute()
 TAS>>>
@@ -32,22 +32,22 @@ tools easier.
 The following keypresses are predefined in the basics module.
 
 Do Nothing:
-```python3
+```python
 wait
 ```
 
 Buttons and triggers:
-```python3
+```python
 a, b, x, y, start, select, l1, l2, l3, r1, r2, r3
 ```
 
 DPad:
-```python3
+```python
 up, down, left, right
 ```
 
 Joysticks:
-```python3
+```python
 run, run_back, run_left, run_right
 walk, walk_back, walk_left, walk_right
 aim_up, aim_down, aim_left, aim_right
@@ -62,7 +62,7 @@ To execute any of these keypresses you can simply type the name and
 `.execute()` into the python window after importing them.
 
 For Example opening the menu and selecting things (while in game):
-```python3
+```python
 TAS>>> # Open the menu and move left and right and close it again
 TAS>>> start.execute()
 TAS>>> right.execute()
@@ -153,23 +153,23 @@ the `glitches.py` and `menus.py` in the scripts folder.
 
 Record on first button press (wait for the counter then load a save):
 ```python
-TAS>>> recording = KeySequence.record(start_delay=10, button_wait=True)
+TAS>>> record(start_delay=10, button_wait=True)
 ```
 
 Reload the savefile and highlight the save then execute the commands,
 skip the wait for IGT to change so it can open the save:
 ```python
-TAS>>> recording.execute(igt_wait=False)
+TAS>>> playback(igt_wait=False)
 ```
 
 Save the recording:
 ```python
-TAS>>> recording.to_file('tas_demo.txt')
+TAS>>> save('tas_demo.txt')
 ```
 
 Reload the recording:
 ```python
-TAS>>> reloaded = KeySequence.from_file('tas_demo.txt')
+TAS>>> load('tas_demo.txt')
 ```
 
 
@@ -186,8 +186,8 @@ Execute the commands and then make sure dark souls is active before the countdow
 Setting igt_wait to False makes the playback execute the first command before waiting for IGT to change.
 
 ```python
-TAS>>> playback = KeySequence.from_file('demos/asylum_run.txt')
-TAS>>> playback.execute(start_delay=10, igt_wait=False)
+TAS>>> load('demos/asylum_run.txt')
+TAS>>> playback(start_delay=10, igt_wait=False)
 ```
 
 If you're really lucky it looks like this: https://youtu.be/gf_ApkcKt6I
