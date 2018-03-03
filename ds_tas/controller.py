@@ -13,6 +13,12 @@ from itertools import chain
 from .engine import tas
 from .util import largest_val
 
+__all__ = [
+    'controller_keys',
+    'KeyPress',
+    'KeySequence',
+]
+
 controller_keys = [
     'dpad_up',
     'dpad_down',
@@ -357,12 +363,13 @@ class KeySequence:
     def keylist(self):
         return list(chain.from_iterable(item.keylist for item in self._sequence))
 
-    def execute(self, start_delay=None, igt_wait=True, tas_instance=tas):
+    def execute(self, start_delay=None, igt_wait=True, display=True, tas_instance=tas):
         """
         Queue up and execute a series of controller commands
 
         :param start_delay: Delay before execution starts in seconds
         :param igt_wait: Wait for IGT to tick before performing the first input
+        :param display: Display the game inputs as they are pressed
         :param tas_instance: TAS Engine for command execution
         """
         if self._sequence:
@@ -378,7 +385,10 @@ class KeySequence:
             print('Executing sequence')
             tas_instance.clear()
             tas_instance.push(self.keylist)
-            tas_instance.execute(igt_wait=igt_wait)
+            if display:
+                tas_instance.execute(igt_wait=igt_wait, side_effect=_print_press)
+            else:
+                tas_instance.execute(igt_wait=igt_wait, side_effect=None)
             print('Sequence executed')
         else:
             print('No sequence defined')
@@ -524,3 +534,15 @@ class KeySequence:
         recording = cls.from_list(recording_data)
 
         return recording
+
+
+def _print_press(keylist, print_wait=False):
+    """
+    Method to print keypresses as KeyPress given individual list inputs.
+
+    :param keylist: List of key values
+    :param print_wait: Print 'wait' values
+    """
+    wait = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    if print_wait or keylist != wait:
+        print(KeyPress.from_list(keylist))

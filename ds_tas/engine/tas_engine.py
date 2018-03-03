@@ -1,4 +1,5 @@
 import time
+from contextlib import contextmanager
 
 from ds_tas.engine.wrapper import Hook
 
@@ -7,6 +8,14 @@ class TAS:
     def __init__(self):
         self.h = Hook()
         self.queue = []
+
+    def igt(self):
+        """
+        Get the raw in game time (alias for h.igt)
+
+        :return: In game time in ms(?)
+        """
+        return self.h.igt()
 
     def clear(self):
         """
@@ -50,22 +59,34 @@ class TAS:
         else:
             raise ValueError(f'Invalid Input: {i}')
 
-    def execute(self, igt_wait=True):
+    @contextmanager
+    def tas_control(self):
+        """
+        Give control of the game to the TAS Engine for commands and return control after.
+        """
+        self.h.controller(False)
+        self.h.background_input(True)
+        try:
+            yield
+        finally:
+            self.h.controller(True)
+            self.h.background_input(False)
+
+    def execute(self, igt_wait=True, side_effect=None):
         """
         Execute the sequence of commands that have been pushed
         to the TAS object
 
-        :param igt_wait: wait for the igt to tick before performing the first input
-        """
-        self.h.controller(False)
-        self.h.background_input(True)
+        Show Commands will ignore 'wait' commands
 
-        # Make sure control is returned after completion
-        try:
-            igt = self.h.igt()
+        :param igt_wait: wait for the igt to tick before performing the first input
+        :param side_effect: Call this method on each keypress if it is defined
+        """
+        with self.tas_control():
+            igt = self.igt()
             if igt_wait:
                 # Wait for IGT to tick before running the first input
-                while igt == self.h.igt():
+                while igt == self.igt():
                     time.sleep(0.002)
             else:
                 # If not waiting for IGT, sleep for 1/20th of a second
@@ -75,14 +96,12 @@ class TAS:
             # Loop over the queue and then clear it
             for command in self.queue:
                 self.h.write_input(command)
-                igt = self.h.igt()
-                while igt == self.h.igt():
+                if side_effect:
+                    side_effect(command)
+                igt = self.igt()
+                while igt == self.igt():
                     time.sleep(0.002)
             self.queue.clear()
-
-        finally:
-            self.h.controller(True)
-            self.h.background_input(False)
 
 
 tas = TAS()

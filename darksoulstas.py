@@ -10,8 +10,9 @@ import textwrap
 
 from ds_tas import KeySequence, KeyPress, basics
 from ds_tas.scripts import menus, glitches
+from ds_tas.engine import tas
 
-__version__ = '2.1.0b4'
+__version__ = '2.1.1'
 
 # Variable names to skip
 skip_vars = ['sys', 'code', 'copy', 'textwrap', 'raw_banner', 'banner', 'skip_vars']
@@ -28,7 +29,7 @@ raw_banner = f"""
         s_aim_up, s_aim_down, s_aim_left, s_aim_right
         
     Basic Functions:
-        waitfor, walkfor, runfor, sprintfor
+        waitfor, walkfor, runfor, sprintfor, igt
     
     Recording and Playback:
         Functions:
@@ -53,7 +54,7 @@ raw_banner = f"""
     (This will also give internal information)
     
     Please read the readme at 
-    https://github.com/DavidCEllis/DarkSouls-TAS/tree/refactoring for examples.
+    https://github.com/DavidCEllis/DarkSouls-TAS/ for examples.
     
     Type exit() to quit.
 """
@@ -145,6 +146,8 @@ def tas_console():
     base_locals['playback'] = playback
     base_locals['save'] = save
     base_locals['load'] = load
+
+    base_locals['igt'] = tas.igt
 
     base_locals['help'] = Helper()
     base_locals['exit'] = sys.exit
