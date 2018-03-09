@@ -1,0 +1,17 @@
+# Ignore PyCharm
+.idea/
+.idea_modules/
+
+# Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# build
+*.egg-info/
+build/
+dist/
+
+# Jupyter Notebook
+.ipynb_checkpoints

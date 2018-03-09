@@ -1,8 +1,9 @@
-from ctypes import cdll
 import ctypes
+from pathlib import Path
 
+dllpath = str(Path(__file__).parents[1] / 'lib/taslib.dll')
 
-lib = cdll.LoadLibrary('taslib.dll')
+lib = ctypes.cdll.LoadLibrary(dllpath)
 
 lib.hook_new.restype = ctypes.c_void_p
 lib.hook_del.argtypes = [ctypes.c_void_p]
@@ -35,8 +36,10 @@ class Hook:
         lib.hook_del(self.obj)
 
     def read_input(self):
-        ''' Returns a list of 20 integers.
+        """
+        Returns a list of 20 integers.
         index: meaning (values)
+
         0: dpad_up (0 or 1)
         1: dpad_down (0 or 1)
         2: dpad_left (0 or 1)
@@ -56,7 +59,8 @@ class Hook:
         16: l_thumb_x (-32,768 to 32,767)
         17: l_thumb_y (-32,768 to 32,767)
         18: r_thumb_x (-32,768 to 32,767)
-        19: r_thumb_y (-32,768 to 32,767) '''
+        19: r_thumb_y (-32,768 to 32,767)
+        """
         array = (ctypes.c_int16*20)()
         lib.hook_read_input(self.obj, array)
         out_list = []
@@ -65,7 +69,8 @@ class Hook:
         return out_list
 
     def write_input(self, inputs):
-        ''' Expects a list of 20 integers.
+        """
+        Expects a list of 20 integers.
         index: meaning (values)
         0: dpad_up (0 or 1)
         1: dpad_down (0 or 1)
@@ -86,28 +91,40 @@ class Hook:
         16: l_thumb_x (-32,768 to 32,767)
         17: l_thumb_y (-32,768 to 32,767)
         18: r_thumb_x (-32,768 to 32,767)
-        19: r_thumb_y (-32,768 to 32,767) '''
+        19: r_thumb_y (-32,768 to 32,767)
+        """
         array = (ctypes.c_int16*20)(*inputs)
         lib.hook_write_input(self.obj, array)
 
     def controller(self, state):
-        ''' if state == True -> enables controller
-        if state == False -> disables controller '''
+        """
+        if state == True -> enables controller
+        if state == False -> disables controller
+        """
+
         lib.hook_controller(self.obj, state)
 
     def background_input(self, state):
-        ''' if state == True -> enables input while the game is in backgound
-        if state == False -> disables input while the game is in backgound '''
+        """
+        if state == True -> enables input while the game is in backgound
+        if state == False -> disables input while the game is in backgound
+        """
         lib.hook_background_input(self.obj, state)
 
     def igt(self):
-        ''' returns IGT '''
+        """
+        returns IGT
+        """
         return lib.hook_igt(self.obj)
 
     def frame_count(self):
-        ''' Returns how many frames were displayed since start of the game. '''
+        """
+        Returns how many frames were displayed since start of the game.
+        """
         return lib.hook_frame_count(self.obj)
 
     def w_handle(self):
-        ''' Returns window handle of DARK SOULS. '''
+        """
+        Returns window handle of DARK SOULS.
+        """
         return lib.hook_get_w_handle(self.obj)
