@@ -234,7 +234,7 @@ class Hook():
         if self.debug:
             ptr = 0xF75BF3
         else:
-            ptr = 0x1378700
+            ptr = 0xF72543
         if state:
             self.write_memory(ptr, b'\xb0\x01\x90')
         else:
