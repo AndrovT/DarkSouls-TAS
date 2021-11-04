@@ -99,7 +99,7 @@ Chaining sequences:
 Sequences can be chained together using `Chain` or the `+` operator. For example `Chain(start, wait, wait, wait, wait, wait, right, a)` is equivalent to `start+wait+wait+wait+wait+wait+right+a` and opens the equipment menu.
 
 Repeating a input:
-`wait+wait+wait+wait+wait` is unnecessarly verbose so it is possible to use `wait*5` or in this case `5` instead. Another example `(a+1)*3` presses `a` 3 times and waits for a frame. Multiplying by 0 skips the sequence. It is possible to repeat a sequence infinitely using `repeat(your_sequence)`.
+`wait+wait+wait+wait+wait` is unnecessarly verbose so it is possible to use `wait*5` or in this case `5`, instead. Another example `(a+1)*3` presses `a` 3 times and waits for a frame. Multiplying by 0 skips the sequence. It is possible to repeat a sequence infinitely using `repeat(your_sequence)`.
 
 Combining sequences:
 It is possible to execute sequences concurrently using `Shortest`, `Longest`, `&` and `|`.
