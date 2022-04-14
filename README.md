@@ -131,7 +131,7 @@ It is possible to slice sequences using the standart python syntax although it m
 
 ## Auxilliary Sequences ##
 
-Auxilliary sequences have length 0 which means that they cannot containe inputs, however they can have other effects.
+Auxilliary sequences have length 0 which means that they cannot contain inputs, however they can have other effects.
 
 ```python
 zero_mouse # Moves mouse to coordinates 0, 0 by overwriting memory.
@@ -149,7 +149,7 @@ Waits until igt changes.
 ```python
 load
 ```
-Repeatedly presses `a` and then waits for igt to start running.
+Waits for igt to reach 0, repeatedly presses `a` and then waits for igt to start running.
 
 ```python
 console_input(glob, loc)
